@@ -18,9 +18,16 @@ const typeDefs = gql`
         title: String!
     }
 
-    type Query {
-        users: [User]!
+    type Auth {
+        token: ID!
+        user: User
     }
+
+    type Query {
+        me: [User]!
+    }
+
+
 `;
 
 module.exports = typeDefs;
