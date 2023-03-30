@@ -12,6 +12,22 @@ import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
 import Navbar from './components/Navbar';
 
+const httpLink = createHttpLink({
+  uri: '/graphql',
+});
+
+const authLink = setContext((_, { headers }) => {
+  // Retrieves the JWT authentication token from local storage if one already exists
+  const token = localStorage.getItem('id_token');
+  // Returns the headers to the context for the httpLink
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
 function App() {
   return (
     <Router>
