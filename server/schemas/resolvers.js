@@ -49,8 +49,10 @@ const resolvers = {
         deleteBook: async (parent, { bookId }, context) => {
             // If the context has a user, it means that the user is running this mutation with a valid JWT and is also logged in
             if (context.user) {
-                return User.findOneAndDelete(
-                    { _id: context.user._id }
+                return User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { savedBooks: { bookId }}},
+                    { new: true },
                 );
             }
             // If the user is not logged in then it will throw an error
