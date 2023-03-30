@@ -11,6 +11,14 @@ const resolvers = {
             throw new AuthenticationErr('You need to be logged in to access this!');
         },
     },
+    Mutation: {
+        createUser: async (parent, args) => {
+            const user = await User.create(args);
+            const token = signToken(user);
+
+            return { token, user };
+        }
+    }
 }
 
 module.exports = resolvers;
