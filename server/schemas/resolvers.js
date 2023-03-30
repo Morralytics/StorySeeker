@@ -43,7 +43,16 @@ const resolvers = {
                     { new: true }
                 );
             }
-
+            // If the user is not logged in then it will throw an error
+            throw new AuthenticationErr('You first need to be logged in!');
+        },
+        deleteBook: async (parent, { bookId }, context) => {
+            // If the context has a user, it means that the user is running this mutation with a valid JWT and is also logged in
+            if (context.user) {
+                return User.findOneAndDelete(
+                    { _id: context.user._id }
+                );
+            }
             // If the user is not logged in then it will throw an error
             throw new AuthenticationErr('You first need to be logged in!');
         }
